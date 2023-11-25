@@ -1,6 +1,7 @@
 package fr.uha.ensisa.crossroad.ui;
 
 import fr.uha.ensisa.crossroad.app.Car;
+import fr.uha.ensisa.crossroad.app.TrafficLight;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -10,11 +11,21 @@ public class TilePanel extends JPanel {
     private int type;
     private BufferedImage image;
     private Car car;
+    private TrafficLight trafficLight1;
+    private TrafficLight trafficLight2;
 
     public TilePanel(int type) {
         this.type = type;
         loadImage();
-        setPreferredSize(new Dimension(50, 50)); // assuming each tile is 50x50 pixels
+        setPreferredSize(new Dimension(60, 60)); // assuming each tile is 50x50 pixels
+    }
+
+    public void setLight1(TrafficLight t1) {
+        this.trafficLight1 = t1;
+    }
+
+    public void setLight2(TrafficLight t2) {
+        this.trafficLight2 = t2;
     }
 
     public void setCar(Car car) {
@@ -50,9 +61,6 @@ public class TilePanel extends JPanel {
             case 9:
                 image = ImageLoader.rotateImage(ImageLoader.loadImage("road2.jpg"), 270);
                 break;
-            case 10:
-                image = ImageLoader.loadImage("red.jpg");
-                break;
         }
     }
 
@@ -65,6 +73,14 @@ public class TilePanel extends JPanel {
 
         if (car != null) {
             g.drawImage(car.getImage(), car.getX(), car.getY(), this);
+        }
+
+        if (trafficLight1 != null ) {
+            g.drawImage(trafficLight1.getCurrentImage(), trafficLight1.getX(), trafficLight1.getY(), this);
+        }
+
+        if (trafficLight2 != null ) {
+            g.drawImage(trafficLight2.getCurrentImage(), trafficLight2.getX(), trafficLight2.getY(), this);
         }
     }
 }
