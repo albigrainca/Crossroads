@@ -72,15 +72,15 @@ class CrossroadsFrame extends JFrame {
         listDesVoitures2 = new ArrayList<>();
         int directionGauche = 0;
         int directionHaut = 1;
-        BufferedImage carImage = ImageLoader.resizeImage(ImageLoader.loadImage("car.png"), 40, 40);
+        BufferedImage carImage = ImageLoader.resizeImage(ImageLoader.loadImage("car.png"), 55, 55);
         BufferedImage rotateCarImage = ImageLoader.rotateImage(carImage, 90);
         listDesVoitures1.add(new Car(5, 0, directionGauche, rotateCarImage));
         listDesVoitures2.add(new Car(9, 5, directionHaut, carImage ));
     }
 
     private void initializeTrafficsLight() {
-        BufferedImage greenLight = ImageLoader.loadImage("green.jpg");
-        BufferedImage redLight = ImageLoader.loadImage("red.jpg");
+        BufferedImage greenLight = ImageLoader.resizeImage(ImageLoader.loadImage("green.jpg"), 56, 56 );
+        BufferedImage redLight = ImageLoader.resizeImage(ImageLoader.loadImage("red.jpg"), 56, 56);
         BufferedImage rotateGreenLight = ImageLoader.rotateImage(greenLight, 90);
         BufferedImage rotateRedLight = ImageLoader.rotateImage(redLight, 90);
 
