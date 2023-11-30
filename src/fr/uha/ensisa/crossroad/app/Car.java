@@ -6,8 +6,8 @@ public class Car {
     private int x;
     private int y;
     private BufferedImage image;
-    private static int GRID_MAX = 9;
-    private static int GRID_MIN = 0;
+    private static int GRID_MAX = 10;
+    private static int GRID_MIN = -1;
     private int direction; // 0: vers la gauche, 1: vers le haut
 
     public Car(int x, int y, int direction, BufferedImage image) {
@@ -22,14 +22,10 @@ public class Car {
             case 0: this.y += 1; break; // Se déplace vers la gauche
             case 1: this.x -= 1; break; // Se déplace vers le haut
         }
+    }
 
-        if (this.y >= GRID_MAX) {
-            this.y = 0;
-        }
-
-        if (this.x <= GRID_MIN) {
-            this.x = 9;
-        }
+    public int getDirection() {
+        return direction;
     }
 
     // Getters et setters

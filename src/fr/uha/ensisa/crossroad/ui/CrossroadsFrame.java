@@ -3,6 +3,7 @@ package fr.uha.ensisa.crossroad.ui;
 import fr.uha.ensisa.crossroad.app.Car;
 import fr.uha.ensisa.crossroad.app.TrafficLight;
 import fr.uha.ensisa.crossroad.threads.CarController;
+import fr.uha.ensisa.crossroad.threads.CarController2;
 import fr.uha.ensisa.crossroad.threads.TrafficLightController;
 
 import javax.swing.*;
@@ -54,7 +55,7 @@ class CrossroadsFrame extends JFrame {
         CarController carControllerFeu1 = new CarController(listDesVoitures1, semaphoreFeu1, grid);
         carControllerFeu1.start();
 
-        CarController carControllerFeu2 = new CarController(listDesVoitures2, semaphoreFeu2, grid);
+        CarController2 carControllerFeu2 = new CarController2(listDesVoitures2, semaphoreFeu2, grid);
         carControllerFeu2.start();
     }
 

@@ -9,13 +9,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
-public class CarController extends Thread {
+public class CarController2 extends Thread {
     private List<Car> cars;
     private Semaphore semaphore;
     private TilePanel[][] grid;
     private BufferedImage carImage;
 
-    public CarController(List<Car> cars, Semaphore semaphore, TilePanel[][] grid) {
+    public CarController2(List<Car> cars, Semaphore semaphore, TilePanel[][] grid) {
         this.cars = cars;
         this.semaphore = semaphore;
         this.grid = grid;
@@ -43,11 +43,11 @@ public class CarController extends Thread {
                         carsToRemove.add(car);
                     } else {
                         SwingUtilities.invokeLater(() -> {
-                            grid[oldX][oldY].setCar(null);
-                            grid[oldX][oldY].repaint();
-
                             grid[newX][newY].setCar(car);
                             grid[newX][newY].repaint();
+
+                            grid[oldX][oldY].setCar(null);
+                            grid[oldX][oldY].repaint();
                         });
                     }
 
@@ -69,9 +69,9 @@ public class CarController extends Thread {
     }
 
     private Car createNewCar() {
-        int startX = 5;
-        int startY = 0;
-        int direction = 0; // de gauche à droite
+        int startX = 9;
+        int startY = 5;
+        int direction = 1; // de bas en haut
         return new Car(startX, startY, direction, carImage);
     }
 
