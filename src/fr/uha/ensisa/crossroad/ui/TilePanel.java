@@ -75,11 +75,11 @@ public class TilePanel extends JPanel {
             g.drawImage(car.getImage(), car.getX(), car.getY(), this);
         }
 
-        if (trafficLight1 != null ) {
+        if (trafficLight1 != null) {
             g.drawImage(trafficLight1.getCurrentImage(), trafficLight1.getX(), trafficLight1.getY(), this);
         }
 
-        if (trafficLight2 != null ) {
+        if (trafficLight2 != null) {
             g.drawImage(trafficLight2.getCurrentImage(), trafficLight2.getX(), trafficLight2.getY(), this);
         }
     }

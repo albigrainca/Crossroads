@@ -22,19 +22,44 @@ public class TrafficLightController extends Thread {
         this.l2 = l2;
     }
 
+    public TrafficLight getTrafficLight1() {
+        return this.l1;
+    }
+
+    public TrafficLight getTrafficLight2() {
+        return this.l2;
+    }
+
     @Override
     public void run() {
         try {
+            System.out.println("Les feux de circulation sont allumés!");
+            System.out.println("La position en X de l1 :" + l1.getX());
+            System.out.println("La position en Y de l1 :" + l1.getY());
+            System.out.println("------------------------------------");
+            System.out.println("La position en X de l2 :" + l2.getX());
+            System.out.println("La position en Y de l2 :" + l2.getY());
+
             while (true) {
-                semaphoreFeu1.release(); // Feu 1 vert
-                semaphoreFeu2.acquire(); // Feu 2 rouge
                 changeTrafficLight();
+
+                // Gérer l'état du feu 1
+                if (l1.isGreen()) {
+                    semaphoreFeu1.release(); // Permettre aux voitures de passer si le feu est vert
+                } else {
+                    semaphoreFeu1.drainPermits(); // Empêcher les nouvelles voitures de passer si le feu est rouge
+                }
 
                 Thread.sleep(dureeFeu);
 
-                semaphoreFeu1.acquire(); // Feu 1 rouge
-                semaphoreFeu2.release(); // Feu 2 vert
-                changeTrafficLight();
+                changeTrafficLight(); // Changer l'état des feux
+
+                // Gérer l'état du feu 2
+                if (l2.isGreen()) {
+                    semaphoreFeu2.release(); // Permettre aux voitures de passer si le feu est vert
+                } else {
+                    semaphoreFeu2.drainPermits(); // Empêcher les nouvelles voitures de passer si le feu est rouge
+                }
 
                 Thread.sleep(dureeFeu);
             }
@@ -42,6 +67,7 @@ public class TrafficLightController extends Thread {
             e.printStackTrace();
         }
     }
+
 
     private void changeTrafficLight() {
         l1.setGreen(!l1.isGreen());
