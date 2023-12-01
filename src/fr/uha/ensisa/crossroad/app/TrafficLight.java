@@ -14,7 +14,7 @@ public class TrafficLight {
         this.y = y;
         this.redLightImage = redLightImage;
         this.greenLightImage = greenLightImage;
-        this.isGreen = false; // Commence par le feu rouge
+        this.isGreen = false;
     }
 
     public void setGreen(boolean isGreen) {

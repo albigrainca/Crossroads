@@ -77,6 +77,4 @@ public class TrafficLightController extends Thread {
         grid[l2.getX()][l2.getY()].setLight1(l2);
         grid[l2.getX()][l2.getY()].repaint();
     }
-
-
 }

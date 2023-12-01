@@ -1,7 +1,6 @@
 package fr.uha.ensisa.crossroad.ui;
 
 import javax.swing.*;
-import java.awt.*;
 
 public class Main {
 

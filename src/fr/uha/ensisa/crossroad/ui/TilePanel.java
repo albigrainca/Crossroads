@@ -17,7 +17,7 @@ public class TilePanel extends JPanel {
     public TilePanel(int type) {
         this.type = type;
         loadImage();
-        setPreferredSize(new Dimension(64, 64)); // assuming each tile is 50x50 pixels
+        setPreferredSize(new Dimension(64, 64));
     }
 
     public void setLight1(TrafficLight t1) {

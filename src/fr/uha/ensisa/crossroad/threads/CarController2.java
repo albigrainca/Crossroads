@@ -28,56 +28,58 @@ public class CarController2 extends Thread {
     public void run() {
         try {
             while (true) {
-                int yFeu0 = trafficLightController.getTrafficLight1().getY(); // pour la direction 0
-                int xFeu1 = trafficLightController.getTrafficLight2().getX();
+                int yFeu0 = trafficLightController.getTrafficLight1().getY() + 1;
+                int xFeu1 = trafficLightController.getTrafficLight2().getX() - 1;
 
                 List<Car> carsToRemove = new ArrayList<>();
                 for (Car car : cars) {
                     int oldX = car.getX();
                     int oldY = car.getY();
 
-                    // Si la voiture est sur le point de passer le feu et que le feu est vert
-                    if (!car.hasCrossedLight()) {
-                        if (car.getDirection() == 0 && oldY == yFeu0 && trafficLightController.getTrafficLight1().isGreen()) {
-                            semaphore.acquire();
-                            car.crossTrafficLight(); // Marquer la voiture comme ayant franchi le feu
-                        } else if (car.getDirection() == 1 && oldX == xFeu1 && trafficLightController.getTrafficLight2().isGreen()) {
-                            semaphore.acquire();
-                            car.crossTrafficLight(); // Marquer la voiture comme ayant franchi le feu
+                    // Déterminer si la voiture est juste devant le feu
+                    boolean isJustBeforeFeu0 = (car.getDirection() == 0 && oldY + 1 == yFeu0);
+                    boolean isJustBeforeFeu1 = (car.getDirection() == 1 && oldX - 1 == xFeu1);
+
+                    // Si la voiture n'a pas encore franchi le feu et est juste devant le feu
+                    if (!car.hasCrossedLight() && (isJustBeforeFeu0 || isJustBeforeFeu1)) {
+                        // Si le feu est rouge, la voiture s'arrête
+                        if ((car.getDirection() == 0 && !trafficLightController.getTrafficLight1().isGreen()) ||
+                                (car.getDirection() == 1 && !trafficLightController.getTrafficLight2().isGreen())) {
+                            continue; // Passer à la voiture suivante sans bouger celle-ci
                         }
                     }
 
-                    // Déplacer la voiture uniquement si elle a déjà passé le feu ou si le feu est vert.
-                    if (car.hasCrossedLight() ||
+                    // Si la voiture n'est pas juste devant le feu ou le feu est vert, ou la voiture a déjà franchi le feu
+                    if (!isJustBeforeFeu0 && !isJustBeforeFeu1 || car.hasCrossedLight() ||
                             (car.getDirection() == 0 && trafficLightController.getTrafficLight1().isGreen()) ||
                             (car.getDirection() == 1 && trafficLightController.getTrafficLight2().isGreen())) {
-                        car.move();
-                        int newX = car.getX();
-                        int newY = car.getY();
-
-                        // Mettez à jour la grille avec la nouvelle position de la voiture
-                        updateGridWithNewCarPosition(oldX, oldY, newX, newY, car);
+                        car.move(); // Déplacer la voiture
                     }
 
-                    // Supprimez les voitures qui ont quitté la grille
+                    // Si la voiture est maintenant au niveau du feu, la marquer comme ayant franchi le feu
+                    if ((car.getDirection() == 0 && car.getY() == yFeu0) ||
+                            (car.getDirection() == 1 && car.getX() == xFeu1)) {
+                        car.crossTrafficLight();
+                    }
+
+                    // Mettre à jour la grille avec la nouvelle position de la voiture
+                    int newX = car.getX();
+                    int newY = car.getY();
+                    updateGridWithNewCarPosition(oldX, oldY, newX, newY, car);
+
+                    // Supprimer les voitures qui ont quitté la grille
                     removeCarsOutsideGrid(oldX, oldY, car, carsToRemove);
-
-                    // Libérer le sémaphore si la voiture a franchi le feu
-                    if (car.hasCrossedLight()) {
-                        semaphore.release();
-                    }
                 }
 
-                // Ajoutez de nouvelles voitures si nécessaire
+                // Ajouter de nouvelles voitures si nécessaire
                 addNewCars(carsToRemove);
 
-                Thread.sleep(450);
+                Thread.sleep(100); // Attendre avant le prochain cycle de déplacement
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
-
 
     private void updateGridWithNewCarPosition(int oldX, int oldY, int newX, int newY, Car car) {
         SwingUtilities.invokeLater(() -> {

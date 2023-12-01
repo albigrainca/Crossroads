@@ -6,7 +6,7 @@ public class Car {
     private int x;
     private int y;
     private BufferedImage image;
-    private boolean hasCrossedLight; // Ajout d'une nouvelle propriété
+    private boolean hasCrossedLight;
 
     private static int GRID_MAX = 10;
     private static int GRID_MIN = -1;
@@ -17,7 +17,7 @@ public class Car {
         this.y = y;
         this.direction = direction;
         this.image = image;
-        this.hasCrossedLight = false; // Initialisation de la propriété
+        this.hasCrossedLight = false;
     }
 
     // Cette méthode doit être appelée lorsque la voiture passe le feu
@@ -36,7 +36,6 @@ public class Car {
         }
     }
 
-    // Utilisez cette méthode pour vérifier si la voiture doit s'arrêter ou non
     public boolean hasCrossedLight() {
         return hasCrossedLight;
     }
@@ -45,7 +44,6 @@ public class Car {
         return direction;
     }
 
-    // Getters et setters
     public int getX() {
         return x;
     }
