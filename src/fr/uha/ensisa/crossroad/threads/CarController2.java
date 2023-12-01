@@ -27,10 +27,9 @@ public class CarController2 extends Thread {
     @Override
     public void run() {
         try {
+            int yFeu0 = trafficLightController.getTrafficLight1().getY() + 1;
+            int xFeu1 = trafficLightController.getTrafficLight2().getX() - 1;
             while (true) {
-                int yFeu0 = trafficLightController.getTrafficLight1().getY() + 1;
-                int xFeu1 = trafficLightController.getTrafficLight2().getX() - 1;
-
                 List<Car> carsToRemove = new ArrayList<>();
                 for (Car car : cars) {
                     int oldX = car.getX();
