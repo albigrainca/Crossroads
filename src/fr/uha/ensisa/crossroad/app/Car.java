@@ -5,12 +5,9 @@ import java.awt.image.BufferedImage;
 public class Car {
     private int x;
     private int y;
-    private BufferedImage image;
+    private final BufferedImage image;
     private boolean hasCrossedLight;
-
-    private static int GRID_MAX = 10;
-    private static int GRID_MIN = -1;
-    private int direction; // 0: vers la gauche, 1: vers le haut
+    private final int direction; // 0: vers la gauche, 1: vers le haut
 
     public Car(int x, int y, int direction, BufferedImage image) {
         this.x = x;

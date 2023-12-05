@@ -6,12 +6,12 @@ import fr.uha.ensisa.crossroad.ui.TilePanel;
 import java.util.concurrent.Semaphore;
 
 public class TrafficLightController extends Thread {
-    private Semaphore semaphoreFeu1;
-    private Semaphore semaphoreFeu2;
-    private int dureeFeu;
-    private TilePanel[][] grid;
-    private TrafficLight l1;
-    private TrafficLight l2;
+    private final Semaphore semaphoreFeu1;
+    private final Semaphore semaphoreFeu2;
+    private final int dureeFeu;
+    private final TilePanel[][] grid;
+    private final TrafficLight l1;
+    private final TrafficLight l2;
 
     public TrafficLightController(Semaphore semaphoreFeu1, Semaphore semaphoreFeu2, int dureeFeu, TilePanel[][] grid, TrafficLight l1, TrafficLight l2) {
         this.semaphoreFeu1 = semaphoreFeu1;

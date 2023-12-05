@@ -4,10 +4,10 @@ import java.awt.image.BufferedImage;
 
 public class TrafficLight {
     private boolean isGreen;
-    private int x;
-    private int y;
-    private BufferedImage redLightImage;
-    private BufferedImage greenLightImage;
+    private final int x;
+    private final int y;
+    private final BufferedImage redLightImage;
+    private final BufferedImage greenLightImage;
 
     public TrafficLight(int x, int y, BufferedImage redLightImage, BufferedImage greenLightImage) {
         this.x = x;

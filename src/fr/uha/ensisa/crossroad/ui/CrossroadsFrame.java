@@ -15,13 +15,11 @@ import java.util.concurrent.Semaphore;
 
 class CrossroadsFrame extends JFrame {
     private static final int GRID_SIZE = 10;
-    private TilePanel[][] grid = new TilePanel[GRID_SIZE][GRID_SIZE];
+    private final TilePanel[][] grid = new TilePanel[GRID_SIZE][GRID_SIZE];
     private List<Car> listDesVoitures1;
     private List<Car> listDesVoitures2;
     private TrafficLight road1Light;
     private TrafficLight road2Light;
-    private Semaphore semaphoreFeu1;
-    private Semaphore semaphoreFeu2;
     private final int TIME_FEU = 5000; // Durée du feu en millisecondes
     private int[][] layout = {
             {1, 1, 1, 1, 2, 4, 1, 1, 1, 1},
@@ -45,8 +43,8 @@ class CrossroadsFrame extends JFrame {
         initializeTrafficsLight();
         grid[road1Light.getX()][road1Light.getY()].setLight1(road1Light);
         grid[road2Light.getX()][road2Light.getY()].setLight1(road2Light);
-        semaphoreFeu1 = new Semaphore(0); // Feu 1 initialement vert
-        semaphoreFeu2 = new Semaphore(1); // Feu 2 initialement rouge
+        Semaphore semaphoreFeu1 = new Semaphore(0); // Feu 1 initialement vert
+        Semaphore semaphoreFeu2 = new Semaphore(1); // Feu 2 initialement rouge
 
         // Créer et démarrer les threads
         TrafficLightController lightController = new TrafficLightController(semaphoreFeu1, semaphoreFeu2, TIME_FEU, grid, road1Light, road2Light);

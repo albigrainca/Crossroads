@@ -10,11 +10,11 @@ import java.util.List;
 import java.util.concurrent.Semaphore;
 
 public class CarController2 extends Thread {
-    private List<Car> cars;
+    private final List<Car> cars;
     private Semaphore semaphore;
-    private TilePanel[][] grid;
-    private BufferedImage carImage;
-    private TrafficLightController trafficLightController;
+    private final TilePanel[][] grid;
+    private final BufferedImage carImage;
+    private final TrafficLightController trafficLightController;
 
     public CarController2(List<Car> cars, Semaphore semaphore, TilePanel[][] grid, TrafficLightController trafficLightController) {
         this.cars = cars;

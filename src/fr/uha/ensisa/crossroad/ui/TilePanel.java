@@ -5,10 +5,11 @@ import fr.uha.ensisa.crossroad.app.TrafficLight;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.Objects;
 import javax.swing.JPanel;
 
 public class TilePanel extends JPanel {
-    private int type;
+    private final int type;
     private BufferedImage image;
     private Car car;
     private TrafficLight trafficLight1;
@@ -41,25 +42,25 @@ public class TilePanel extends JPanel {
                 image = ImageLoader.loadImage("road.jpg");
                 break;
             case 3:
-                image = ImageLoader.rotateImage(ImageLoader.loadImage("road.jpg"), 90);
+                image = ImageLoader.rotateImage(Objects.requireNonNull(ImageLoader.loadImage("road.jpg")), 90);
                 break;
             case 4:
-                image = ImageLoader.rotateImage(ImageLoader.loadImage("road.jpg"), 180);
+                image = ImageLoader.rotateImage(Objects.requireNonNull(ImageLoader.loadImage("road.jpg")), 180);
                 break;
             case 5:
-                image = ImageLoader.rotateImage(ImageLoader.loadImage("road.jpg"), 270);
+                image = ImageLoader.rotateImage(Objects.requireNonNull(ImageLoader.loadImage("road.jpg")), 270);
                 break;
             case 6:
                 image = ImageLoader.loadImage("road2.jpg");
                 break;
             case 7:
-                image = ImageLoader.rotateImage(ImageLoader.loadImage("road2.jpg"), 90);
+                image = ImageLoader.rotateImage(Objects.requireNonNull(ImageLoader.loadImage("road2.jpg")), 90);
                 break;
             case 8:
-                image = ImageLoader.rotateImage(ImageLoader.loadImage("road2.jpg"), 180);
+                image = ImageLoader.rotateImage(Objects.requireNonNull(ImageLoader.loadImage("road2.jpg")), 180);
                 break;
             case 9:
-                image = ImageLoader.rotateImage(ImageLoader.loadImage("road2.jpg"), 270);
+                image = ImageLoader.rotateImage(Objects.requireNonNull(ImageLoader.loadImage("road2.jpg")), 270);
                 break;
         }
     }
