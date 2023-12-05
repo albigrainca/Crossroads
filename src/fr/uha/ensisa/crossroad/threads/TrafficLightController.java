@@ -34,28 +34,28 @@ public class TrafficLightController extends Thread {
     public void run() {
         try {
             System.out.println("Les feux de circulation sont allumés!");
-            System.out.println("La position en X de l1 :" + l1.getX());
-            System.out.println("La position en Y de l1 :" + l1.getY());
-            System.out.println("------------------------------------");
-            System.out.println("La position en X de l2 :" + l2.getX());
-            System.out.println("La position en Y de l2 :" + l2.getY());
 
             while (true) {
                 changeTrafficLight();
 
                 // Gérer l'état du feu 1
                 if (l1.isGreen()) {
+                    System.out.println(" Le feu 1 passe au vert");
+                    System.out.println(" Le feu 2 passe au rouge");
+
                     semaphoreFeu1.release(); // Permettre aux voitures de passer si le feu est vert
                 } else {
                     semaphoreFeu1.drainPermits(); // Empêcher les nouvelles voitures de passer si le feu est rouge
                 }
-
                 Thread.sleep(dureeFeu);
-
-                changeTrafficLight(); // Changer l'état des feux
+                changeTrafficLight();
+                System.out.println("-----------------------");
 
                 // Gérer l'état du feu 2
                 if (l2.isGreen()) {
+                    System.out.println(" Le feu 1 passe au rouge");
+                    System.out.println(" Le feu 2 passe au vert");
+
                     semaphoreFeu2.release(); // Permettre aux voitures de passer si le feu est vert
                 } else {
                     semaphoreFeu2.drainPermits(); // Empêcher les nouvelles voitures de passer si le feu est rouge

@@ -25,10 +25,6 @@ public class TilePanel extends JPanel {
         this.trafficLight1 = t1;
     }
 
-    public void setLight2(TrafficLight t2) {
-        this.trafficLight2 = t2;
-    }
-
     public void setCar(Car car) {
         this.car = car;
     }

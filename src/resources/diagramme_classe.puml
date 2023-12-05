@@ -1,0 +1,114 @@
+@startuml
+
+package app {
+    class Car {
+        - x : int
+        - y : int
+        - image : BufferedImage
+        - hasCrossedLight : boolean
+        - direction : int
+        + crossTrafficLight() : void
+        + move() : void
+        + hasCrossedLight() : boolean
+        + getDirection() : int
+        + getX() : int
+        + getY() : int
+        + getImage() : BufferedImage
+    }
+
+    class TrafficLight {
+        - isGreen : boolean
+        - x : int
+        - y : int
+        - redLightImage : BufferedImage
+        - greenLightImage : BufferedImage
+        + setGreen(isGreen : boolean) : void
+        + isGreen() : boolean
+        + getX() : int
+        + getY() : int
+        + getCurrentImage() : BufferedImage
+    }
+}
+
+package threads {
+    class CarController extends Threads {
+        - cars : List<Car>
+        - grid : TilePanel[][]
+        - carImage : BufferedImage
+        - trafficLightController : TrafficLightController
+        + run() : void
+        + updateGridWithNewCarPosition(oldX : int, oldY : int, newX : int, newY : int, car : Car) : void
+        + removeCarsOutsideGrid(oldX : int, oldY : int, car : Car, carsToRemove : List<Car>) : void
+        + addNewCars(List<Car> carsToRemove) : void
+        + createNewCar() : Car
+    }
+
+    class CarController2 extends Threads {
+        - cars : List<Car>
+        - grid : TilePanel[][]
+        - carImage : BufferedImage
+        - trafficLightController : TrafficLightController
+        + run() : void
+        + updateGridWithNewCarPosition(oldX : int, oldY : int, newX : int, newY : int, car : Car) : void
+        + removeCarsOutsideGrid(oldX : int, oldY : int, car : Car, carsToRemove : List<Car>) : void
+        + addNewCars(List<Car> carsToRemove) : void
+        + createNewCar() : Car
+    }
+
+    class TrafficLightController extends Threads {
+        - semaphoreFeu1 : Semaphore
+        - semaphoreFeu2 : Semaphore
+        - dureeFeu : int
+        - grid : TilePanel[][]
+        - l1 : TrafficLight
+        - l2 : TrafficLight
+        + getTrafficLight1() : TrafficLight
+        + getTrafficLight2() : TrafficLight
+        + run() : void
+        + changeTrafficLight() : void
+    }
+}
+
+package ui {
+    class CrossroadsFrame extends JFrame {
+        - GRID_SIZE : int
+        - grid : TilePanel[][]
+        - listDesVoitures1 : List<Car>
+        - listDesVoitures2 : List<Car>
+        - road1Light : TrafficLight
+        - road2Light : TrafficLight
+        - layout : int[][]
+        + initializeGrid() : void
+        + initializeCars() : void
+        + initializeTrafficsLight() : void
+    }
+
+        class Main {
+            + main(args : String[]) : void
+        }
+
+        class TilePanel extends JPanel {
+            - type : int
+            - image : BufferedImage
+            - car : Car
+            - trafficLight1 : TrafficLight
+            - trafficLight2 : TrafficLight
+            + setLight1(t1 : TrafficLight) : void
+            + setCar(car : Car) : void
+            + loadImage() : void
+            + paintComponent(g : Graphics) : void
+        }
+}
+
+CarController --> "many" Car : gère >
+CarController --> "many" TilePanel : utilise >
+CarController --> TrafficLightController : utilise >
+CarController2 --> "many" Car : gère >
+CarController2 --> "many" TilePanel : utilise >
+CarController2 --> TrafficLightController : utilise >
+TrafficLightController --> "2" TrafficLight : contrôle >
+CrossroadsFrame --> "many" TilePanel : contient >
+TilePanel --> Car : affiche >
+TilePanel --> "2" TrafficLight : affiche >
+
+@enduml

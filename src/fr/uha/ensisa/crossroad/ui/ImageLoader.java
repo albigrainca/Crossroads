@@ -49,7 +49,5 @@ public class ImageLoader {
 
         return resizedImage;
     }
-
-
 }
 

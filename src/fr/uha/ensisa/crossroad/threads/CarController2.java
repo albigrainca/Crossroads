@@ -7,18 +7,15 @@ import javax.swing.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Semaphore;
 
 public class CarController2 extends Thread {
     private final List<Car> cars;
-    private Semaphore semaphore;
     private final TilePanel[][] grid;
     private final BufferedImage carImage;
     private final TrafficLightController trafficLightController;
 
-    public CarController2(List<Car> cars, Semaphore semaphore, TilePanel[][] grid, TrafficLightController trafficLightController) {
+    public CarController2(List<Car> cars, TilePanel[][] grid, TrafficLightController trafficLightController) {
         this.cars = cars;
-        this.semaphore = semaphore;
         this.grid = grid;
         this.carImage = cars.get(0).getImage();
         this.trafficLightController = trafficLightController;

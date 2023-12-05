@@ -20,8 +20,7 @@ class CrossroadsFrame extends JFrame {
     private List<Car> listDesVoitures2;
     private TrafficLight road1Light;
     private TrafficLight road2Light;
-    private final int TIME_FEU = 5000; // Durée du feu en millisecondes
-    private int[][] layout = {
+    private final int[][] layout = {
             {1, 1, 1, 1, 2, 4, 1, 1, 1, 1},
             {1, 1, 1, 1, 2, 4, 1, 1, 1, 1},
             {1, 1, 1, 1, 2, 4, 1, 1, 1, 1},
@@ -47,13 +46,14 @@ class CrossroadsFrame extends JFrame {
         Semaphore semaphoreFeu2 = new Semaphore(1); // Feu 2 initialement rouge
 
         // Créer et démarrer les threads
+        int TIME_FEU = 5000;
         TrafficLightController lightController = new TrafficLightController(semaphoreFeu1, semaphoreFeu2, TIME_FEU, grid, road1Light, road2Light);
         lightController.start();
 
-        CarController carControllerFeu1 = new CarController(listDesVoitures1, semaphoreFeu1, grid, lightController);
+        CarController carControllerFeu1 = new CarController(listDesVoitures1, grid, lightController);
         carControllerFeu1.start();
 
-        CarController2 carControllerFeu2 = new CarController2(listDesVoitures2, semaphoreFeu2, grid, lightController);
+        CarController2 carControllerFeu2 = new CarController2(listDesVoitures2, grid, lightController);
         carControllerFeu2.start();
     }
 
