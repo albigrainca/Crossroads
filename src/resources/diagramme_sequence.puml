@@ -1,40 +1,50 @@
 @startuml
 
-actor Main
-participant "crossroadsFrame : CrossroadsFrame" as CrossroadsFrame
 participant "lightController : TrafficLightController" as TrafficLightController
 participant "carController1 : CarController" as CarController1
 participant "carController2 : CarController2" as CarController2
 participant "car : Car" as Car
 participant "trafficLight : TrafficLight" as TrafficLight
-participant "tilePanel : TilePanel" as TilePanel
 
-Main -> CrossroadsFrame: init()
-activate CrossroadsFrame
+box "Thread TrafficLightController"
+    loop Every 5 seconds
+        TrafficLightController -> TrafficLight: setGreen()
+        activate TrafficLight
+        deactivate TrafficLight
+    end
+end box
 
-CrossroadsFrame -> TrafficLightController: new()
-activate TrafficLightController
+box "Thread CarController"
+    loop Every 1 second
+        CarController1 -> Car: move()
+        activate Car
+        Car -> TrafficLight: isGreen()
+        activate TrafficLight
+        alt if isGreen() == true or car hasCrossedLight
+            Car -> Car: continue moving
+        else
+            Car -> Car: stop
+        end
+        deactivate TrafficLight
+        deactivate Car
+    end
+end box
 
-CrossroadsFrame -> CarController1: new()
-activate CarController1
-
-CrossroadsFrame -> CarController2: new()
-activate CarController2
-
-loop Every 5 seconds
-    TrafficLightController -> TrafficLight: setGreen()
-end
-
-loop Every 1 second
-    CarController1 -> Car: move()
-    CarController2 -> Car: move()
-end
-
-Car -> TilePanel: updatePosition()
-TrafficLight -> TilePanel: updateState()
-
-deactivate TrafficLightController
-deactivate CarController1
-deactivate CarController2
+box "Thread CarController2"
+    loop Every 1 second
+        CarController2 -> Car: move()
+        activate Car
+        Car -> TrafficLight: isGreen()
+        activate TrafficLight
+        alt if isGreen() == true or car hasCrossedLight
+            Car -> Car: continue moving
+        else
+            Car -> Car: stop
+        end
+        deactivate TrafficLight
+        deactivate Car
+    end
+end box
 
 @enduml
+
