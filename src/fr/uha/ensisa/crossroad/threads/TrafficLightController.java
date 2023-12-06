@@ -8,7 +8,7 @@ import java.util.concurrent.Semaphore;
 public class TrafficLightController extends Thread {
     private final Semaphore semaphoreFeu1;
     private final Semaphore semaphoreFeu2;
-    private final int dureeFeu;
+    private final int beamtime;
     private final TilePanel[][] grid;
     private final TrafficLight l1;
     private final TrafficLight l2;
@@ -16,7 +16,7 @@ public class TrafficLightController extends Thread {
     public TrafficLightController(Semaphore semaphoreFeu1, Semaphore semaphoreFeu2, int dureeFeu, TilePanel[][] grid, TrafficLight l1, TrafficLight l2) {
         this.semaphoreFeu1 = semaphoreFeu1;
         this.semaphoreFeu2 = semaphoreFeu2;
-        this.dureeFeu = dureeFeu;
+        this.beamtime = dureeFeu;
         this.grid = grid;
         this.l1 = l1;
         this.l2 = l2;
@@ -33,48 +33,46 @@ public class TrafficLightController extends Thread {
     @Override
     public void run() {
         try {
-            System.out.println("Les feux de circulation sont allumés!");
-
             while (true) {
-                changeTrafficLight();
+                // Changer le premier feu au rouge et le second au vert après un délai
+                l1.setGreen(false);
+                updateTrafficLight(l1);
+                Thread.sleep(1000); // Délai de sécurité d'une seconde
+                l2.setGreen(true);
+                updateTrafficLight(l2);
 
-                // Gérer l'état du feu 1
-                if (l1.isGreen()) {
-                    System.out.println(" Le feu 1 passe au vert");
-                    System.out.println(" Le feu 2 passe au rouge");
+                // Gestion des sémaphores et délai
+                handleSemaphores();
+                Thread.sleep(beamtime);
 
-                    semaphoreFeu1.release(); // Permettre aux voitures de passer si le feu est vert
-                } else {
-                    semaphoreFeu1.drainPermits(); // Empêcher les nouvelles voitures de passer si le feu est rouge
-                }
-                Thread.sleep(dureeFeu);
-                changeTrafficLight();
-                System.out.println("-----------------------");
+                // Inverser le processus pour les feux
+                l2.setGreen(false);
+                updateTrafficLight(l2);
+                Thread.sleep(1000); // Délai de sécurité d'une seconde
+                l1.setGreen(true);
+                updateTrafficLight(l1);
 
-                // Gérer l'état du feu 2
-                if (l2.isGreen()) {
-                    System.out.println(" Le feu 1 passe au rouge");
-                    System.out.println(" Le feu 2 passe au vert");
-
-                    semaphoreFeu2.release(); // Permettre aux voitures de passer si le feu est vert
-                } else {
-                    semaphoreFeu2.drainPermits(); // Empêcher les nouvelles voitures de passer si le feu est rouge
-                }
-
-                Thread.sleep(dureeFeu);
+                // Gestion des sémaphores et délai
+                handleSemaphores();
+                Thread.sleep(beamtime);
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
 
+    private void updateTrafficLight(TrafficLight light) {
+        grid[light.getX()][light.getY()].setLight1(light);
+        grid[light.getX()][light.getY()].repaint();
+    }
 
-    private void changeTrafficLight() {
-        l1.setGreen(!l1.isGreen());
-        grid[l1.getX()][l1.getY()].setLight1(l1);
-        grid[l1.getX()][l1.getY()].repaint();
-        l2.setGreen(!l2.isGreen());
-        grid[l2.getX()][l2.getY()].setLight1(l2);
-        grid[l2.getX()][l2.getY()].repaint();
+    private void handleSemaphores() {
+        if (l1.isGreen()) {
+            semaphoreFeu1.release();
+            semaphoreFeu2.drainPermits();
+        } else {
+            semaphoreFeu2.release();
+            semaphoreFeu1.drainPermits();
+        }
     }
 }

@@ -16,10 +16,6 @@ import java.util.concurrent.Semaphore;
 class CrossroadsFrame extends JFrame {
     private static final int GRID_SIZE = 10;
     private final TilePanel[][] grid = new TilePanel[GRID_SIZE][GRID_SIZE];
-    private List<Car> listDesVoitures1;
-    private List<Car> listDesVoitures2;
-    private TrafficLight road1Light;
-    private TrafficLight road2Light;
     private final int[][] layout = {
             {1, 1, 1, 1, 2, 4, 1, 1, 1, 1},
             {1, 1, 1, 1, 2, 4, 1, 1, 1, 1},
@@ -33,6 +29,10 @@ class CrossroadsFrame extends JFrame {
             {1, 1, 1, 1, 2, 4, 1, 1, 1, 1},
             {1, 1, 1, 1, 2, 4, 1, 1, 1, 1},
     };
+    private List<Car> cars1;
+    private List<Car> cars2;
+    private TrafficLight road1Light;
+    private TrafficLight road2Light;
 
     public CrossroadsFrame() {
         setTitle("Crossroads Simulation");
@@ -50,10 +50,10 @@ class CrossroadsFrame extends JFrame {
         TrafficLightController lightController = new TrafficLightController(semaphoreFeu1, semaphoreFeu2, TIME_FEU, grid, road1Light, road2Light);
         lightController.start();
 
-        CarController carControllerFeu1 = new CarController(listDesVoitures1, grid, lightController);
+        CarController carControllerFeu1 = new CarController(cars1, grid, lightController);
         carControllerFeu1.start();
 
-        CarController2 carControllerFeu2 = new CarController2(listDesVoitures2, grid, lightController);
+        CarController2 carControllerFeu2 = new CarController2(cars2, grid, lightController);
         carControllerFeu2.start();
     }
 
@@ -67,14 +67,14 @@ class CrossroadsFrame extends JFrame {
     }
 
     private void initializeCars() {
-        listDesVoitures1 = new ArrayList<>();
-        listDesVoitures2 = new ArrayList<>();
+        cars1 = new ArrayList<>();
+        cars2 = new ArrayList<>();
         int directionGauche = 0;
         int directionHaut = 1;
         BufferedImage carImage = ImageLoader.resizeImage(ImageLoader.loadImage("car.png"), 55, 55);
         BufferedImage rotateCarImage = ImageLoader.rotateImage(carImage, 90);
-        listDesVoitures1.add(new Car(5, 0, directionGauche, rotateCarImage));
-        listDesVoitures2.add(new Car(9, 5, directionHaut, carImage));
+        cars1.add(new Car(5, 0, directionGauche, rotateCarImage));
+        cars2.add(new Car(9, 5, directionHaut, carImage));
     }
 
     private void initializeTrafficsLight() {

@@ -3,10 +3,10 @@ package fr.uha.ensisa.crossroad.ui;
 import fr.uha.ensisa.crossroad.app.Car;
 import fr.uha.ensisa.crossroad.app.TrafficLight;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.Objects;
-import javax.swing.JPanel;
 
 public class TilePanel extends JPanel {
     private final int type;

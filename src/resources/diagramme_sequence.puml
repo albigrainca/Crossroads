@@ -6,6 +6,8 @@ participant "carController2 : CarController2" as CarController2
 participant "car : Car" as Car
 participant "trafficLight : TrafficLight" as TrafficLight
 
+note over CarController1, CarController2: Les deux CarControllers fonctionnent en parallèle
+
 box "Thread TrafficLightController"
     loop Every 5 seconds
         TrafficLightController -> TrafficLight: setGreen()
@@ -14,29 +16,25 @@ box "Thread TrafficLightController"
     end
 end box
 
-box "Thread CarController"
-    loop Every 1 second
+box "Threads CarController1 et CarController2"
+    loop Every 100 milliseconds
         CarController1 -> Car: move()
         activate Car
         Car -> TrafficLight: isGreen()
         activate TrafficLight
-        alt if isGreen() == true or car hasCrossedLight
+        alt if isGreen() or car hasCrossedLight
             Car -> Car: continue moving
         else
             Car -> Car: stop
         end
         deactivate TrafficLight
         deactivate Car
-    end
-end box
 
-box "Thread CarController2"
-    loop Every 1 second
         CarController2 -> Car: move()
         activate Car
         Car -> TrafficLight: isGreen()
         activate TrafficLight
-        alt if isGreen() == true or car hasCrossedLight
+        alt if isGreen() or car hasCrossedLight
             Car -> Car: continue moving
         else
             Car -> Car: stop
@@ -47,4 +45,3 @@ box "Thread CarController2"
 end box
 
 @enduml
-
