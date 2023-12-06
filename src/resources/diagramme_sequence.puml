@@ -1,0 +1,40 @@
+@startuml
+
+actor Main
+participant "crossroadsFrame : CrossroadsFrame" as CrossroadsFrame
+participant "lightController : TrafficLightController" as TrafficLightController
+participant "carController1 : CarController" as CarController1
+participant "carController2 : CarController2" as CarController2
+participant "car : Car" as Car
+participant "trafficLight : TrafficLight" as TrafficLight
+participant "tilePanel : TilePanel" as TilePanel
+
+Main -> CrossroadsFrame: init()
+activate CrossroadsFrame
+
+CrossroadsFrame -> TrafficLightController: new()
+activate TrafficLightController
+
+CrossroadsFrame -> CarController1: new()
+activate CarController1
+
+CrossroadsFrame -> CarController2: new()
+activate CarController2
+
+loop Every 5 seconds
+    TrafficLightController -> TrafficLight: setGreen()
+end
+
+loop Every 1 second
+    CarController1 -> Car: move()
+    CarController2 -> Car: move()
+end
+
+Car -> TilePanel: updatePosition()
+TrafficLight -> TilePanel: updateState()
+
+deactivate TrafficLightController
+deactivate CarController1
+deactivate CarController2
+
+@enduml
