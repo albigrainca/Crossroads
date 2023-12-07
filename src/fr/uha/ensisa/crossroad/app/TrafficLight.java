@@ -3,11 +3,11 @@ package fr.uha.ensisa.crossroad.app;
 import java.awt.image.BufferedImage;
 
 public class TrafficLight {
-    private boolean isGreen;
     private final int x;
     private final int y;
     private final BufferedImage redLightImage;
     private final BufferedImage greenLightImage;
+    private boolean isGreen;
 
     public TrafficLight(int x, int y, BufferedImage redLightImage, BufferedImage greenLightImage) {
         this.x = x;
@@ -17,12 +17,12 @@ public class TrafficLight {
         this.isGreen = false;
     }
 
-    public void setGreen(boolean isGreen) {
-        this.isGreen = isGreen;
-    }
-
     public boolean isGreen() {
         return isGreen;
+    }
+
+    public void setGreen(boolean isGreen) {
+        this.isGreen = isGreen;
     }
 
     public int getX() {

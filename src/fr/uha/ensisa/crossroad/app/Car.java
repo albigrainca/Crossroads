@@ -3,11 +3,11 @@ package fr.uha.ensisa.crossroad.app;
 import java.awt.image.BufferedImage;
 
 public class Car {
+    private final BufferedImage image;
+    private final int direction; // 0: vers la droite, 1: vers le haut, 2: vers la gauche, 3: vers le bas
     private int x;
     private int y;
-    private final BufferedImage image;
     private boolean hasCrossedLight;
-    private final int direction; // 0: vers la gauche, 1: vers le haut
 
     public Car(int x, int y, int direction, BufferedImage image) {
         this.x = x;
@@ -26,10 +26,16 @@ public class Car {
         switch (direction) {
             case 0:
                 this.y += 1;
-                break; // Se déplace vers la gauche
+                break; // Se déplace vers la droite
             case 1:
                 this.x -= 1;
                 break; // Se déplace vers le haut
+            case 2:
+                this.y -= 1;
+                break; // se déplace vers la gauche
+            case 3:
+                this.x += 1;
+                break; // se déplace vers le bas
         }
     }
 

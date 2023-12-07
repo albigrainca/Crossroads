@@ -33,6 +33,8 @@ class CrossroadsFrame extends JFrame {
     private List<Car> cars2;
     private TrafficLight road1Light;
     private TrafficLight road2Light;
+    private TrafficLight road3Light;
+    private TrafficLight road4Light;
 
     public CrossroadsFrame() {
         setTitle("Crossroads Simulation");
@@ -42,12 +44,14 @@ class CrossroadsFrame extends JFrame {
         initializeTrafficsLight();
         grid[road1Light.getX()][road1Light.getY()].setLight1(road1Light);
         grid[road2Light.getX()][road2Light.getY()].setLight1(road2Light);
-        Semaphore semaphoreFeu1 = new Semaphore(0); // Feu 1 initialement vert
-        Semaphore semaphoreFeu2 = new Semaphore(1); // Feu 2 initialement rouge
+        grid[road3Light.getX()][road3Light.getY()].setLight1(road3Light);
+        grid[road4Light.getX()][road4Light.getY()].setLight1(road4Light);
+        Semaphore horizontalLight = new Semaphore(0); // Feux horizontales initialement vert
+        Semaphore verticalLight = new Semaphore(1); // Feux verticales initialement rouge
 
         // Créer et démarrer les threads
         int TIME_FEU = 5000;
-        TrafficLightController lightController = new TrafficLightController(semaphoreFeu1, semaphoreFeu2, TIME_FEU, grid, road1Light, road2Light);
+        TrafficLightController lightController = new TrafficLightController(horizontalLight, verticalLight, TIME_FEU, grid, road1Light, road2Light, road3Light, road4Light);
         lightController.start();
 
         CarController carControllerFeu1 = new CarController(cars1, grid, lightController);
@@ -71,10 +75,16 @@ class CrossroadsFrame extends JFrame {
         cars2 = new ArrayList<>();
         int directionGauche = 0;
         int directionHaut = 1;
+        int directionDroite = 2;
+        int directionBas = 3;
         BufferedImage carImage = ImageLoader.resizeImage(ImageLoader.loadImage("car.png"), 55, 55);
         BufferedImage rotateCarImage = ImageLoader.rotateImage(carImage, 90);
+        BufferedImage rotateCarImage2 = ImageLoader.rotateImage(carImage, 270);
+        BufferedImage rotateCarImage3 = ImageLoader.rotateImage(carImage, 180);
         cars1.add(new Car(5, 0, directionGauche, rotateCarImage));
+        cars1.add(new Car(4, 9, directionDroite, rotateCarImage2));
         cars2.add(new Car(9, 5, directionHaut, carImage));
+        cars2.add(new Car(0, 4, directionBas, rotateCarImage3));
     }
 
     private void initializeTrafficsLight() {
@@ -82,9 +92,16 @@ class CrossroadsFrame extends JFrame {
         BufferedImage redLight = ImageLoader.resizeImage(ImageLoader.loadImage("red.jpg"), 56, 56);
         BufferedImage rotateGreenLight = ImageLoader.rotateImage(greenLight, 90);
         BufferedImage rotateRedLight = ImageLoader.rotateImage(redLight, 90);
+        BufferedImage rotateGreenLight2 = ImageLoader.rotateImage(greenLight, 270);
+        BufferedImage rotateRedLight2 = ImageLoader.rotateImage(redLight, 270);
+        BufferedImage rotateGreenLight3 = ImageLoader.rotateImage(greenLight, 180);
+        BufferedImage rotateRedLight3 = ImageLoader.rotateImage(redLight, 180);
 
         road1Light = new TrafficLight(6, 3, rotateRedLight, rotateGreenLight);
         road2Light = new TrafficLight(6, 6, redLight, greenLight);
+        road3Light = new TrafficLight(3, 6, rotateRedLight2, rotateGreenLight2);
+        road4Light = new TrafficLight(3, 3, rotateRedLight3, rotateGreenLight3);
         road2Light.setGreen(true);
+        road4Light.setGreen(true);
     }
 }

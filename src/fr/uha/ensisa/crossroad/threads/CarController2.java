@@ -1,6 +1,7 @@
 package fr.uha.ensisa.crossroad.threads;
 
 import fr.uha.ensisa.crossroad.app.Car;
+import fr.uha.ensisa.crossroad.ui.ImageLoader;
 import fr.uha.ensisa.crossroad.ui.TilePanel;
 
 import javax.swing.*;
@@ -12,12 +13,14 @@ public class CarController2 extends Thread {
     private final List<Car> cars;
     private final TilePanel[][] grid;
     private final BufferedImage carImage;
+    private final BufferedImage carImage2;
     private final TrafficLightController trafficLightController;
 
     public CarController2(List<Car> cars, TilePanel[][] grid, TrafficLightController trafficLightController) {
         this.cars = cars;
         this.grid = grid;
         this.carImage = cars.get(0).getImage();
+        this.carImage2 = ImageLoader.rotateImage(carImage, 180);
         this.trafficLightController = trafficLightController;
     }
 
@@ -26,18 +29,21 @@ public class CarController2 extends Thread {
         try {
             int yFeu0 = trafficLightController.getTrafficLight1().getY() + 1;
             int xFeu1 = trafficLightController.getTrafficLight2().getX() - 1;
+            int yFeu2 = trafficLightController.getTrafficLight3().getY() - 1;
+            int xFeu3 = trafficLightController.getTrafficLight4().getX() + 1;
             while (true) {
                 List<Car> carsToRemove = new ArrayList<>();
                 for (Car car : cars) {
                     int oldX = car.getX();
                     int oldY = car.getY();
-
                     // Déterminer si la voiture est juste devant le feu
                     boolean isJustBeforeFeu0 = (car.getDirection() == 0 && oldY + 1 == yFeu0);
                     boolean isJustBeforeFeu1 = (car.getDirection() == 1 && oldX - 1 == xFeu1);
+                    boolean isJustBeforeFeu2 = (car.getDirection() == 2 && oldY - 1 == yFeu2);
+                    boolean isJustBeforeFeu3 = (car.getDirection() == 3 && oldX + 1 == xFeu3);
 
                     // Si la voiture n'a pas encore franchi le feu et est juste devant le feu
-                    if (!car.hasCrossedLight() && (isJustBeforeFeu0 || isJustBeforeFeu1)) {
+                    if (!car.hasCrossedLight() && (isJustBeforeFeu0 || isJustBeforeFeu1 || isJustBeforeFeu2 || isJustBeforeFeu3)) {
                         // Si le feu est rouge, la voiture s'arrête
                         if ((car.getDirection() == 0 && !trafficLightController.getTrafficLight1().isGreen()) ||
                                 (car.getDirection() == 1 && !trafficLightController.getTrafficLight2().isGreen())) {
@@ -46,15 +52,19 @@ public class CarController2 extends Thread {
                     }
 
                     // Si la voiture n'est pas juste devant le feu ou le feu est vert, ou la voiture a déjà franchi le feu
-                    if (!isJustBeforeFeu0 && !isJustBeforeFeu1 || car.hasCrossedLight() ||
+                    if (!isJustBeforeFeu0 && !isJustBeforeFeu1 && !isJustBeforeFeu2 && !isJustBeforeFeu3 || car.hasCrossedLight() ||
                             (car.getDirection() == 0 && trafficLightController.getTrafficLight1().isGreen()) ||
-                            (car.getDirection() == 1 && trafficLightController.getTrafficLight2().isGreen())) {
+                            (car.getDirection() == 1 && trafficLightController.getTrafficLight2().isGreen()) ||
+                            (car.getDirection() == 2 && trafficLightController.getTrafficLight3().isGreen()) ||
+                            (car.getDirection() == 3 && trafficLightController.getTrafficLight4().isGreen())) {
                         car.move(); // Déplacer la voiture
                     }
 
                     // Si la voiture est maintenant au niveau du feu, la marquer comme ayant franchi le feu
                     if ((car.getDirection() == 0 && car.getY() == yFeu0) ||
-                            (car.getDirection() == 1 && car.getX() == xFeu1)) {
+                            (car.getDirection() == 1 && car.getX() == xFeu1) ||
+                            (car.getDirection() == 2 && car.getY() == yFeu2) ||
+                            (car.getDirection() == 4 && car.getX() == xFeu3)) {
                         car.crossTrafficLight();
                     }
 
@@ -69,7 +79,6 @@ public class CarController2 extends Thread {
 
                 // Ajouter de nouvelles voitures si nécessaire
                 addNewCars(carsToRemove);
-
                 Thread.sleep(100); // Attendre avant le prochain cycle de déplacement
             }
         } catch (InterruptedException e) {
@@ -101,18 +110,19 @@ public class CarController2 extends Thread {
     private void addNewCars(List<Car> carsToRemove) {
         cars.removeAll(carsToRemove);
         for (Car car : carsToRemove) {
-            Car newCar = createNewCar();
-            cars.add(newCar);
+            if (car.getDirection() == 1 || car.getDirection() == 3) { // pour les voitures horizontales
+                Car newCar = createNewCar(car.getDirection());
+                cars.add(newCar);
+            }
         }
     }
 
-    private Car createNewCar() {
-        int startX = 9;
-        int startY = 5;
-        int direction = 1; // de bas en haut
-        return new Car(startX, startY, direction, carImage);
+    private Car createNewCar(int direction) {
+        int startX = (direction == 1) ? 9 : 0; // La position de départ change en fonction de la direction
+        int startY = (direction == 3) ? 4 : 5;
+        BufferedImage image = (direction == 1) ? carImage : carImage2;
+        return new Car(startX, startY, direction, image);
     }
-
 }
 
 
