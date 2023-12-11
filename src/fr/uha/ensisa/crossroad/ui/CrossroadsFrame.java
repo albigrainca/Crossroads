@@ -16,19 +16,7 @@ import java.util.concurrent.Semaphore;
 class CrossroadsFrame extends JFrame {
     private static final int GRID_SIZE = 10;
     private final TilePanel[][] grid = new TilePanel[GRID_SIZE][GRID_SIZE];
-    private final int[][] layout = {
-            {1, 1, 1, 1, 2, 4, 1, 1, 1, 1},
-            {1, 1, 1, 1, 2, 4, 1, 1, 1, 1},
-            {1, 1, 1, 1, 2, 4, 1, 1, 1, 1},
-            {1, 1, 1, 1, 2, 4, 1, 1, 1, 1},
-            {3, 3, 3, 3, 6, 7, 3, 3, 3, 3},
-            {5, 5, 5, 5, 9, 8, 5, 5, 5, 5},
-            {1, 1, 1, 1, 2, 4, 1, 1, 1, 1},
-            {1, 1, 1, 1, 2, 4, 1, 1, 1, 1},
-            {1, 1, 1, 1, 2, 4, 1, 1, 1, 1},
-            {1, 1, 1, 1, 2, 4, 1, 1, 1, 1},
-            {1, 1, 1, 1, 2, 4, 1, 1, 1, 1},
-    };
+    private final int[][] layout = {{1, 1, 1, 1, 2, 4, 1, 1, 1, 1}, {1, 1, 1, 1, 2, 4, 1, 1, 1, 1}, {1, 1, 1, 1, 2, 4, 1, 1, 1, 1}, {1, 1, 1, 1, 2, 4, 1, 1, 1, 1}, {3, 3, 3, 3, 6, 7, 3, 3, 3, 3}, {5, 5, 5, 5, 9, 8, 5, 5, 5, 5}, {1, 1, 1, 1, 2, 4, 1, 1, 1, 1}, {1, 1, 1, 1, 2, 4, 1, 1, 1, 1}, {1, 1, 1, 1, 2, 4, 1, 1, 1, 1}, {1, 1, 1, 1, 2, 4, 1, 1, 1, 1}, {1, 1, 1, 1, 2, 4, 1, 1, 1, 1},};
     private List<Car> cars1;
     private List<Car> cars2;
     private TrafficLight road1Light;

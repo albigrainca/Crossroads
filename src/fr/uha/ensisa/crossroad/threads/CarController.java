@@ -46,26 +46,18 @@ public class CarController extends Thread {
                     // Si la voiture n'a pas encore franchi le feu et est juste devant le feu
                     if (!car.hasCrossedLight() && (isJustBeforeFeu0 || isJustBeforeFeu1 || isJustBeforeFeu2 || isJustBeforeFeu3)) {
                         // Si le feu est rouge, la voiture s'arrête
-                        if ((car.getDirection() == 0 && !trafficLightController.getTrafficLight1().isGreen()) ||
-                                (car.getDirection() == 1 && !trafficLightController.getTrafficLight2().isGreen())) {
+                        if ((car.getDirection() == 0 && !trafficLightController.getTrafficLight1().isGreen()) || (car.getDirection() == 1 && !trafficLightController.getTrafficLight2().isGreen())) {
                             continue; // Passer à la voiture suivante sans bouger celle-ci
                         }
                     }
 
                     // Si la voiture n'est pas juste devant le feu ou le feu est vert, ou la voiture a déjà franchi le feu
-                    if (!isJustBeforeFeu0 && !isJustBeforeFeu1 && !isJustBeforeFeu2 && !isJustBeforeFeu3 || car.hasCrossedLight() ||
-                            (car.getDirection() == 0 && trafficLightController.getTrafficLight1().isGreen()) ||
-                            (car.getDirection() == 1 && trafficLightController.getTrafficLight2().isGreen()) ||
-                            (car.getDirection() == 2 && trafficLightController.getTrafficLight3().isGreen()) ||
-                            (car.getDirection() == 3 && trafficLightController.getTrafficLight4().isGreen())) {
+                    if (!isJustBeforeFeu0 && !isJustBeforeFeu1 && !isJustBeforeFeu2 && !isJustBeforeFeu3 || car.hasCrossedLight() || (car.getDirection() == 0 && trafficLightController.getTrafficLight1().isGreen()) || (car.getDirection() == 1 && trafficLightController.getTrafficLight2().isGreen()) || (car.getDirection() == 2 && trafficLightController.getTrafficLight3().isGreen()) || (car.getDirection() == 3 && trafficLightController.getTrafficLight4().isGreen())) {
                         car.move(); // Déplacer la voiture
                     }
 
                     // Si la voiture est maintenant au niveau du feu, la marquer comme ayant franchi le feu
-                    if ((car.getDirection() == 0 && car.getY() == yFeu0) ||
-                            (car.getDirection() == 1 && car.getX() == xFeu1) ||
-                            (car.getDirection() == 2 && car.getY() == yFeu2) ||
-                            (car.getDirection() == 4 && car.getX() == xFeu3)) {
+                    if ((car.getDirection() == 0 && car.getY() == yFeu0) || (car.getDirection() == 1 && car.getX() == xFeu1) || (car.getDirection() == 2 && car.getY() == yFeu2) || (car.getDirection() == 4 && car.getX() == xFeu3)) {
                         car.crossTrafficLight();
                     }
 
@@ -114,6 +106,7 @@ public class CarController extends Thread {
             if (car.getDirection() == 0 || car.getDirection() == 2) { // pour les voitures horizontales
                 Car newCar = createNewCar(car.getDirection());
                 cars.add(newCar);
+                updateGridWithNewCarPosition(newCar.getX(), newCar.getY(), newCar.getX(), newCar.getY(), newCar);
             }
         }
     }
