@@ -102,16 +102,22 @@ public class CarController extends Thread {
     private void createNewCarIfPossible() {
         if (random.nextBoolean() && !availableStartPositions.isEmpty()) {
             int direction = random.nextBoolean() ? 0 : 2;
-            int startPositionIndex = random.nextInt(availableStartPositions.size());
-            int startX = availableStartPositions.get(startPositionIndex);
+            int dirRoad = 0;
+            for(Car car: cars){
+                if(car.getDirection() == direction) dirRoad ++;
+            }
+            if(dirRoad <= 2){
+                int startPositionIndex = random.nextInt(availableStartPositions.size());
+                int startX = availableStartPositions.get(startPositionIndex);
 
-            // Assurez-vous que la position de départ est libre
-            if (isPositionFree(startX, direction == 0 ? 0 : grid[0].length - 1)) {
-                Car newCar = createNewCar(direction);
-                cars.add(newCar);
-                // Mettre à jour la position de départ pour qu'elle ne soit pas négative
-                updateGridWithNewCarPosition(-1, -1, newCar.getX(), newCar.getY(), newCar);
-                // Ici, nous ne retirons pas la position de départ de la liste car elle est réutilisable pour les voitures horizontales
+                // Assurez-vous que la position de départ est libre
+                if (isPositionFree(startX, direction == 0 ? 0 : grid[0].length - 1)) {
+                    Car newCar = createNewCar(direction);
+                    cars.add(newCar);
+                    // Mettre à jour la position de départ pour qu'elle ne soit pas négative
+                    updateGridWithNewCarPosition(-1, -1, newCar.getX(), newCar.getY(), newCar);
+                    // Ici, nous ne retirons pas la position de départ de la liste car elle est réutilisable pour les voitures horizontales
+                }
             }
         }
     }

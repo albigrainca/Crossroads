@@ -107,14 +107,20 @@ public class CarController2 extends Thread {
     private synchronized void createNewCarIfPossible() {
         if (random.nextBoolean() && !availableStartPositions.isEmpty()) {
             int direction = random.nextBoolean() ? 1 : 3; // 1 pour bas à haut, 3 pour haut à bas
-            int startPositionIndex = random.nextInt(availableStartPositions.size());
-            int startY = availableStartPositions.get(startPositionIndex);
+            int dirRoad = 0;
+            for(Car car: cars){
+                if(car.getDirection() == direction) dirRoad ++;
+            }
+            if(dirRoad <= 2){
+                int startPositionIndex = random.nextInt(availableStartPositions.size());
+                int startY = availableStartPositions.get(startPositionIndex);
 
-            if (isPositionFree(direction == 1 ? grid.length - 1 : 0, startY)) {
-                Car newCar = createNewCar(direction);
-                cars.add(newCar);
-                updateGridWithNewCarPosition(-1, -1, newCar.getX(), newCar.getY(), newCar);
-                availableStartPositions.remove(Integer.valueOf(startY)); // Retirer la position pour ne pas créer une autre voiture au même endroit
+                if (isPositionFree(direction == 1 ? grid.length - 1 : 0, startY)) {
+                    Car newCar = createNewCar(direction);
+                    cars.add(newCar);
+                    updateGridWithNewCarPosition(-1, -1, newCar.getX(), newCar.getY(), newCar);
+                    availableStartPositions.remove(Integer.valueOf(startY)); // Retirer la position pour ne pas créer une autre voiture au même endroit
+                }
             }
         }
     }
