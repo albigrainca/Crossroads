@@ -18,6 +18,7 @@ public class CarController extends Thread {
     private final TrafficLightController trafficLightController;
     private final Random random = new Random();
     private final List<Integer> availableStartPositions = new ArrayList<>();
+    private int rb = 0;
 
     public CarController(List<Car> cars, TilePanel[][] grid, TrafficLightController trafficLightController) {
         this.cars = cars;
@@ -100,13 +101,14 @@ public class CarController extends Thread {
     }
 
     private void createNewCarIfPossible() {
+        rb++;
         if (random.nextBoolean() && !availableStartPositions.isEmpty()) {
             int direction = random.nextBoolean() ? 0 : 2;
             int dirRoad = 0;
             for(Car car: cars){
                 if(car.getDirection() == direction) dirRoad ++;
             }
-            if(dirRoad <= 2){
+            if(dirRoad <= 2 && rb % 5 == 0){
                 int startPositionIndex = random.nextInt(availableStartPositions.size());
                 int startX = availableStartPositions.get(startPositionIndex);
 
