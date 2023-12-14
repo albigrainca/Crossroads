@@ -26,10 +26,11 @@ Dans les environnements urbains, la gestion efficace des carrefours est cruciale
 - `src/fr/uha/ensisa/crossroad/app` : Classes modélisant les voitures (`Car`) et les feux de circulation (`TrafficLight`).
 - `src/fr/uha/ensisa/crossroad/threads` : Classes de threads pour le contrôle des feux (`TrafficLightController`) et la gestion des voitures (`CarController`).
 - `src/fr/uha/ensisa/crossroad/ui` : Interface utilisateur avec la classe principale de la fenêtre (`CrossroadsFrame`) et la gestion des panneaux (`TilePanel`).
+- `src/fr/uha/ensisa/crossroad/tests` : Package de tests pour valider le bon fonctionnement des éléments du projet (feux, mouvement des voitures).
 
-## Comment ça marche ?
-- **Feux de Circulation :** Les threads contrôlent les feux de circulation, en alternant leur état et en introduisant un délai de sécurité.
-- **Mouvement des Voitures :** Les voitures réagissent à l'état des feux, se déplaçant ou s'arrêtant en conséquence.
+## Fonctionnement
+- **Feux de Circulation :** Les threads contrôlent les feux de circulation, en alternant leur état et en introduisant un délai de sécurité. A tour de rôle, les deux feux horizontales passent au vert, puis c'est au tour des feux verticales. Nous avons introduit un "temps mort" de 1 seconde avant que les feux en état "feu rouge" passent en état "feu vert" dans l'optique d'éviter les collisions à l'intersection du carrefour (méthode d'ailleurs implémentée dans la vraie vie...)
+- **Mouvement des Voitures :** Les voitures réagissent à l'état des feux, se déplaçant ou s'arrêtant en conséquence. Nous avons 4 sens de circulation et deux mouvements possibles pour les voitures : horizontalement ou verticalement.
 - **Synchronisation :** Les threads sont synchronisés pour assurer une transition fluide et sécurisée entre les différents états des feux.
 
 ## Auteur
