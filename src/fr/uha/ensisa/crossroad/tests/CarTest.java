@@ -57,4 +57,43 @@ class CarTest {
         carList.remove(car);
         assertEquals(0, carList.size(), "La liste de voitures doit être vide après la suppression de la voiture");
     }
+
+    @Test
+    void testMovementDirectionRight() {
+        car = new Car(5, 0, 0, car.getImage()); // direction 0: vers la droite
+        int initialY = car.getY();
+        car.move();
+        assertEquals(initialY + 1, car.getY(), "La voiture doit se déplacer vers la droite");
+    }
+
+    @Test
+    void testMovementDirectionLeft() {
+        car = new Car(5, 9, 2, car.getImage()); // direction 2: vers la gauche
+        int initialY = car.getY();
+        car.move();
+        assertEquals(initialY - 1, car.getY(), "La voiture doit se déplacer vers la gauche");
+    }
+
+    @Test
+    void testMovementDirectionDown() {
+        car = new Car(0, 4, 3, car.getImage()); // direction 3: vers le bas
+        int initialX = car.getX();
+        car.move();
+        assertEquals(initialX + 1, car.getX(), "La voiture doit se déplacer vers le bas");
+    }
+
+    @Test
+    void testMovementDirectionUp() {
+        car = new Car(9, 5, 1, car.getImage()); // direction 1: vers le haut
+        int initialX = car.getX();
+        car.move();
+        assertEquals(initialX - 1, car.getX(), "La voiture doit se déplacer vers le haut");
+    }
+
+    @Test
+    void testInitialPosition() {
+        car = new Car(5, 9, 0, car.getImage());
+        assertEquals(5, car.getX(), "La position initiale X doit être 5");
+        assertEquals(9, car.getY(), "La position initiale Y doit être 9");
+    }
 }
