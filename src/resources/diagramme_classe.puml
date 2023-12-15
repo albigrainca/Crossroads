@@ -31,28 +31,44 @@ package app {
 }
 
 package threads {
-    class CarController extends Threads {
+    class CarController {
         - cars : List<Car>
         - grid : TilePanel[][]
         - carImage : BufferedImage
+        - carImage2 : BufferedImage
         - trafficLightController : TrafficLightController
+        - random : Random
+        - availableStartPositions : List<Integer>
+        - rb : int
+
+        + CarController(cars : List<Car>, grid : TilePanel[][], trafficLightController : TrafficLightController)
         + run() : void
-        + updateGridWithNewCarPosition(oldX : int, oldY : int, newX : int, newY : int, car : Car) : void
-        + removeCarsOutsideGrid(oldX : int, oldY : int, car : Car, carsToRemove : List<Car>) : void
-        + addNewCars(List<Car> carsToRemove) : void
-        + createNewCar() : Car
+        - moveCars() : void
+        - updateGridWithNewCarPosition(oldX : int, oldY : int, newX : int, newY : int, car : Car) : void
+        - createNewCarIfPossible() : void
+        - atRedLight(car : Car, nextX : int, nextY : int) : boolean
+        - isPositionFree(x : int, y : int) : boolean
+        - createNewCar(direction : int) : Car
     }
 
     class CarController2 extends Threads {
         - cars : List<Car>
         - grid : TilePanel[][]
         - carImage : BufferedImage
+        - carImage2 : BufferedImage
         - trafficLightController : TrafficLightController
+        - random : Random
+        - availableStartPositions : List<Integer>
+        - rb : int
+
+        + CarController(cars : List<Car>, grid : TilePanel[][], trafficLightController : TrafficLightController)
         + run() : void
-        + updateGridWithNewCarPosition(oldX : int, oldY : int, newX : int, newY : int, car : Car) : void
-        + removeCarsOutsideGrid(oldX : int, oldY : int, car : Car, carsToRemove : List<Car>) : void
-        + addNewCars(List<Car> carsToRemove) : void
-        + createNewCar() : Car
+        - moveCars() : void
+        - updateGridWithNewCarPosition(oldX : int, oldY : int, newX : int, newY : int, car : Car) : void
+        - createNewCarIfPossible() : void
+        - atRedLight(car : Car, nextX : int, nextY : int) : boolean
+        - isPositionFree(x : int, y : int) : boolean
+        - createNewCar(direction : int) : Car
     }
 
     class TrafficLightController extends Threads {
