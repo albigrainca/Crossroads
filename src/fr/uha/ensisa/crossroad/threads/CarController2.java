@@ -110,10 +110,10 @@ public class CarController2 extends Thread {
         if (random.nextBoolean() && !availableStartPositions.isEmpty()) {
             int direction = random.nextBoolean() ? 1 : 3; // 1 pour bas à haut, 3 pour haut à bas
             int dirRoad = 0;
-            for(Car car: cars){
-                if(car.getDirection() == direction) dirRoad ++;
+            for (Car car : cars) {
+                if (car.getDirection() == direction) dirRoad++;
             }
-            if(dirRoad <= 2 && rb % 5 == 0){
+            if (dirRoad <= 2 && rb % 5 == 0) {
                 int startPositionIndex = random.nextInt(availableStartPositions.size());
                 int startY = availableStartPositions.get(startPositionIndex);
 

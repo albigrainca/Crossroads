@@ -105,14 +105,14 @@ public class CarController extends Thread {
         if (random.nextBoolean() && !availableStartPositions.isEmpty()) {
             int direction = random.nextBoolean() ? 0 : 2;
             int dirRoad = 0;
-            for(Car car: cars){
-                if(car.getDirection() == direction) dirRoad ++;
+            for (Car car : cars) {
+                if (car.getDirection() == direction) dirRoad++;
             }
-            if(dirRoad <= 2 && rb % 5 == 0){
+            if (dirRoad <= 2 && rb % 5 == 0) {
                 int startPositionIndex = random.nextInt(availableStartPositions.size());
                 int startX = availableStartPositions.get(startPositionIndex);
 
-                // Assurez-vous que la position de départ est libre
+                // nous vérifions que la position de départ est libre
                 if (isPositionFree(startX, direction == 0 ? 0 : grid[0].length - 1)) {
                     Car newCar = createNewCar(direction);
                     cars.add(newCar);
